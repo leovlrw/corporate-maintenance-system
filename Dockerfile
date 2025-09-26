@@ -1,14 +1,18 @@
-# Use a imagem oficial do OpenJDK 21
-FROM openjdk:21-jdk-slim
+# Build stage
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
 
-# Defina o diretório de trabalho dentro do container
+# Build da aplicação
+RUN mvn clean package -DskipTests
+
+# Runtime stage
+FROM openjdk:21-jdk-slim
 WORKDIR /app
 
-# Copie o arquivo JAR gerado pelo Maven
-COPY target/corporate-maintenance-system-0.0.1-SNAPSHOT.jar app.jar
+# Copie o JAR do estágio de build
+COPY --from=builder /app/target/corporate-maintenance-system-0.0.1-SNAPSHOT.jar app.jar
 
-# Exponha a porta que sua aplicação Spring Boot usa
 EXPOSE 8080
-
-# Comando para executar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
