@@ -22,11 +22,8 @@ public class MaintenanceOrderController {
     @Autowired
     private MaintenanceOrderRepository maintenanceOrderRepository;
 
-    // 🔥 ADICIONE ESTE MÉTODO PARA A ROTA RAIZ
-    @GetMapping("/")
-    public String home() {
-        return "redirect:/maintenance";
-    }
+
+
 
     @ModelAttribute("urgencyOptions")
     public MaintenanceOrder.Urgency[] getUrgencyOptions() {
