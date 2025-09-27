@@ -22,8 +22,11 @@ public class MaintenanceOrderController {
     @Autowired
     private MaintenanceOrderRepository maintenanceOrderRepository;
 
-
-
+    
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/maintenance";
+    }
 
     @ModelAttribute("urgencyOptions")
     public MaintenanceOrder.Urgency[] getUrgencyOptions() {
